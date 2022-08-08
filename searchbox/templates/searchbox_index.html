@@ -1,0 +1,50 @@
+
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+<html>
+<head>
+
+</head>
+
+<body>
+<div id="app">
+  <ul>
+    <li v-for="entry in Search">
+      <h1>${ entry.name }$</h1>
+    </li>
+  </ul>
+</div>
+</body>
+</html>
+
+<script>
+  const { createApp } = Vue
+
+  createApp({
+    delimiters: ['[[', ']]'],
+    data() {
+      return {
+
+        message: 'Hello Vue!'
+      }
+    },
+    methods: {
+     async getEntries() {
+      try {
+                    // fetch tasks
+                    const response = await this.$http.get('http://localhost:8000/searchapi');
+                    // set the data returned as tasks
+                    this.tasks = response.data; 
+                } catch (error) {
+                    // log the error
+                    console.log(error);
+                }
+     },
+    },
+    created() {
+            // Fetch tasks on page load
+            this.getData();
+        }
+  }).mount('#app')
+</script>
